@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AppMultimedia_Lopez_Fernando"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.appmultimedia_lopez_fernando.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppMultimedia_Lopez_Fernando">
