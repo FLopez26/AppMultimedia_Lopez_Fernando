@@ -1,4 +1,4 @@
-package com.appmultimedia_lopez_fernando.presentation.ui.screens
+package com.appmultimedia_lopez_fernando.presentation.ui.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -42,7 +42,8 @@ fun LoginScreen() {
 
     Surface(modifier = Modifier
         .fillMaxSize()
-        .statusBarsPadding()){
+        .statusBarsPadding())
+    {
         Column (modifier = Modifier
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally)
@@ -99,6 +100,6 @@ fun LoginScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewMain() {
+fun LoginScreenPreview() {
     LoginScreen()
 }
