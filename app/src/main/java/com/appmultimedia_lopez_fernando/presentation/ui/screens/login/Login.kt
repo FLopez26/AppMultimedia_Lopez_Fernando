@@ -79,7 +79,6 @@ fun LoginScreen() {
                 }
             )
             Spacer(modifier = Modifier.height(10.dp))
-
             Row()
             {
                 Button(onClick = {username = ""; password = ""}){
