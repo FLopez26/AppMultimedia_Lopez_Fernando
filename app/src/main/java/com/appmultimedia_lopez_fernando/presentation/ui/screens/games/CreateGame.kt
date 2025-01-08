@@ -19,14 +19,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.appmultimedia_lopez_fernando.presentation.navigation.Screen
 
 @Composable
-fun CreateGameScreen() {
+fun CreateGameScreen(navController: NavController) {
     var name by remember { mutableStateOf("") }
     var place by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
@@ -118,7 +121,7 @@ fun CreateGameScreen() {
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screen.Home.route) },
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(16.dp)
@@ -132,5 +135,4 @@ fun CreateGameScreen() {
 @Preview(showBackground = true)
 @Composable
 fun CreateGamePreview(){
-    CreateGameScreen()
 }

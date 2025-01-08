@@ -32,10 +32,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.appmultimedia_lopez_fernando.presentation.navigation.Screen
 import com.example.appmultimedia_lopez_fernando.R
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("")}
     var passwordVisible by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("")}
@@ -87,7 +89,7 @@ fun LoginScreen() {
 
                 Spacer(modifier = Modifier.width(10.dp))
 
-                Button(onClick = {username = ""; password = ""}) {
+                Button(onClick = {navController.navigate(Screen.CreateGame.route)}) {
                 Text(text = "Login")
                 }
             }
@@ -100,5 +102,4 @@ fun LoginScreen() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
 }
