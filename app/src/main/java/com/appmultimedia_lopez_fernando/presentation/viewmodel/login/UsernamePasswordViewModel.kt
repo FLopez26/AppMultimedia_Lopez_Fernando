@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class UsernamePasswordViewModel : ViewModel() {
     private val VALID_USERNAME = "admin"
-    private val VALID_PASSWORD = "Sandia4you"
+    private val VALID_PASSWORD = "admin"
 
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username

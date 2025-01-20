@@ -21,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,15 +33,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.appmultimedia_lopez_fernando.presentation.navigation.Screen
+import com.appmultimedia_lopez_fernando.presentation.viewmodel.login.UsernamePasswordViewModel
 import com.example.appmultimedia_lopez_fernando.R
 
 @Composable
-fun LoginScreen(navController: NavController) {
-    var username by remember { mutableStateOf("")}
+fun LoginScreen(
+    navController: NavController,
+    usernamePasswordViewModel: UsernamePasswordViewModel = viewModel()
+) {
+    val username by usernamePasswordViewModel.username.collectAsState()
+    val password by usernamePasswordViewModel.password.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }
-    var password by remember { mutableStateOf("")}
 
     Surface(modifier = Modifier
         .fillMaxSize()
@@ -62,7 +68,7 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
                     .padding(20.dp,0.dp),
                 value = username,
-                onValueChange = { newText -> username = newText },
+                onValueChange = { usernamePasswordViewModel.setUsername(it) },
                 label = { Text("Username") }
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -70,7 +76,7 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
                     .padding(20.dp,0.dp),
                 value = password,
-                onValueChange = { newPassword -> password = newPassword },
+                onValueChange = { usernamePasswordViewModel.setPassword(it) },
                 label = { Text("Password") },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -83,13 +89,19 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
             Row()
             {
-                Button(onClick = {username = ""; password = ""}){
-                    Text(text = "Clean")
+                Button(onClick = {usernamePasswordViewModel.clear()}){
+                    Text(text = "Limpiar")
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
 
-                Button(onClick = {navController.navigate(Screen.CreateGame.route)}) {
+                Button(onClick = {
+                    if(usernamePasswordViewModel.isValidLogin()) {
+                        navController.navigate(Screen.Main.route)
+                    } else {
+                        usernamePasswordViewModel.clear()
+                    }
+                }) {
                 Text(text = "Login")
                 }
             }

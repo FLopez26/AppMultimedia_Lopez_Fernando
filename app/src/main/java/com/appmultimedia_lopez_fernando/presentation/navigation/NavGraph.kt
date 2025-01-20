@@ -18,7 +18,7 @@ fun NavGraph(startDestination: String = Screen.Login.route) {
     // Creamos un NavHost que arranque con la pantalla de inicio
     NavHost(navController = navController, startDestination = startDestination) {
 
-        composable(Screen.Home.route) {
+        composable(Screen.Main.route) {
             mainViewScreen(navController)
         }
 
