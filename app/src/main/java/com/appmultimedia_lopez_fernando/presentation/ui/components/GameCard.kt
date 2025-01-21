@@ -35,7 +35,7 @@ fun GameCard(game: Game, gamesViewModel: GamesViewModel) {
     var expanded by remember { mutableStateOf(false) }
     Card(onClick = { expanded = !expanded }, modifier = Modifier
         .fillMaxWidth()
-        .padding(start = 5.dp, end = 5.dp)
+        .padding(start = 10.dp, end = 10.dp)
     ){
         Column(
             Modifier

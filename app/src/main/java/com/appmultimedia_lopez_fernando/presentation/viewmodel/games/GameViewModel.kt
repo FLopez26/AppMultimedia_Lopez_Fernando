@@ -46,7 +46,4 @@ class GameViewModel : ViewModel(){
             creator = creator
         )
     }
-
-    fun save() {
-    }
 }

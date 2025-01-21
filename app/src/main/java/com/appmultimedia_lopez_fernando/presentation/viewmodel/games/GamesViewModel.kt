@@ -19,6 +19,10 @@ class GamesViewModel: ViewModel() {
 
     val games: StateFlow<List<Game>> = _games
 
+    fun addGame(game: Game){
+        _games.value += game
+    }
+
     fun removeGame(name: String){
         _games.value = _games
             .value
