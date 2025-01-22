@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "668620123693",
+    "project_id": "bibliotecajuegosdemesa",
+    "storage_bucket": "bibliotecajuegosdemesa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668620123693:android:7afc1e47d0a3f2c18952a4",
+        "android_client_info": {
+          "package_name": "com.example.appmultimedia_lopez_fernando"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGs0FxXeD08cfPTfTRsOi34VWeciCrkUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
