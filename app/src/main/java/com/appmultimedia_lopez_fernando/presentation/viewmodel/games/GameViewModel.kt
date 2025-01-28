@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class GameViewModel : ViewModel(){
     private val _game = MutableStateFlow(
-        Game("","","",0,0,0,"")
+        Game("", "","","",0,0,0,"")
     )
     val game: StateFlow<Game> = _game
 

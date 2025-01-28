@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.StateFlow
 class GamesViewModel: ViewModel() {
     private val _games = MutableStateFlow(
         listOf(
-            Game("Carcassonne", "Salón", "Losetas", 2, 5, 30, "Klaus-Jürgen Wrede"),
-            Game("Catan", "Estantería", "Comercio", 3, 4, 90, "Klaus Teuber"),
-            Game("The Red Cathedral", "Salón", "Mayorías", 1, 4, 60, " Israel Cendrero"),
-            Game("Sagrada", "Salón", "Construcción", 1, 4, 30, "Adrian Adamescu"),
-            Game("Ubongo!", "Salón", "Puzzle", 1, 4, 30, "Grzegorz Rejchtman"),
-            Game("Alhambra", "Estantería", "Losetas", 2, 6, 60, "Dirk Henn")
+            Game("", "Carcassonne", "Salón", "Losetas", 2, 5, 30, "Klaus-Jürgen Wrede"),
+            Game("", "Catan", "Estantería", "Comercio", 3, 4, 90, "Klaus Teuber"),
+            Game("", "The Red Cathedral", "Salón", "Mayorías", 1, 4, 60, " Israel Cendrero"),
+            Game("", "Sagrada", "Salón", "Construcción", 1, 4, 30, "Adrian Adamescu"),
+            Game("", "Ubongo!", "Salón", "Puzzle", 1, 4, 30, "Grzegorz Rejchtman"),
+            Game("", "Alhambra", "Estantería", "Losetas", 2, 6, 60, "Dirk Henn")
         )
     )
 
