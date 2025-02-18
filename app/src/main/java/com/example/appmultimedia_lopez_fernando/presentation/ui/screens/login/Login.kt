@@ -96,7 +96,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.width(10.dp))
 
                 Button(onClick = {
-                    if(usernamePasswordViewModel.isValidLogin()) {
+                    if(usernamePasswordViewModel.login()) {
                         navController.navigate(Screen.Main.route)
                     } else {
                         usernamePasswordViewModel.clear()
