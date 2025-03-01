@@ -24,15 +24,10 @@ class GameFirestoreRepository(val firestore: FirebaseFirestore): GameRepository 
         }
     }
     override fun list(): Flow<List<Game>> {
-        // Esta implementación crea un Flow que actualiza la lista de usuarios
-        // cada vez que hay un cambio en la base de datos
         return callbackFlow {
 
             val listener = collection
-                // Aquí viene la query,
-                // Se ordena por nombre de manera desceniente
                 .orderBy("name", Query.Direction.DESCENDING)
-                // Creamos un listener a la query para que se actualice siempre que haya cambios
                 .addSnapshotListener { snapshots, error ->
                     if (error != null) {
                         close(error)
@@ -71,6 +66,5 @@ class GameFirestoreRepository(val firestore: FirebaseFirestore): GameRepository 
             .document(id)
             .delete()
             .await()
-
     }
 }

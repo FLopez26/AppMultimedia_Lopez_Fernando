@@ -27,11 +27,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.appmultimedia_lopez_fernando.domain.model.Game
-import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.GamesViewModel
+import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.GamesScreenViewModel
+import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.RemoveGameViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("NotConstructor")
 @Composable
-fun GameCard(game: Game, gamesViewModel: GamesViewModel) {
+fun GameCard(
+    game: Game,
+    gamesViewModel: GamesScreenViewModel,
+    removeGameViewModel: RemoveGameViewModel = koinViewModel()
+) {
     var expanded by remember { mutableStateOf(false) }
     Card(onClick = { expanded = !expanded }, modifier = Modifier
         .fillMaxWidth()
@@ -98,7 +104,7 @@ fun GameCard(game: Game, gamesViewModel: GamesViewModel) {
                 }
                 //Buttons
                 Row{
-                    IconButton(onClick = { gamesViewModel.removeGame(game.name) }) {
+                    IconButton(onClick = { removeGameViewModel.delete(game.id) }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Icono de eliminar"

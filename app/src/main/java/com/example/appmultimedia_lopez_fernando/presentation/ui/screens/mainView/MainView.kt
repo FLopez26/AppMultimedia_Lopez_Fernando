@@ -25,16 +25,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.appmultimedia_lopez_fernando.presentation.navigation.Screen
 import com.example.appmultimedia_lopez_fernando.presentation.ui.components.ActionsMenu
 import com.example.appmultimedia_lopez_fernando.presentation.ui.components.GameCard
-import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.GamesViewModel
+import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.GamesScreenViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun mainViewScreen(navController: NavController, gamesViewModel: GamesViewModel = viewModel()){
-
+fun mainViewScreen(
+    navController: NavController,
+    gamesViewModel: GamesScreenViewModel = koinViewModel()
+){
     val snackbarHostState = remember { SnackbarHostState() }
     val games = gamesViewModel.games.collectAsState().value
     var showDialog by remember { mutableStateOf(false) }
