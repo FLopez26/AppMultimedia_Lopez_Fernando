@@ -1,12 +1,12 @@
 package com.example.appmultimedia_lopez_fernando.domain.usecase.games
 
-import com.example.appmultimedia_lopez_fernando.data.source.remote.GameFirestoreRepository
+import com.example.appmultimedia_lopez_fernando.domain.repository.GameRepository
 import com.example.appmultimedia_lopez_fernando.domain.model.Game
 
 class AddGameUseCase(
-    private val gameRepository: GameFirestoreRepository
+    private val gameRepository: GameRepository
 ) {
-    operator suspend fun invoke(game: Game): Unit {
+    suspend operator fun invoke(game: Game): Unit {
         gameRepository.save(game)
     }
 }

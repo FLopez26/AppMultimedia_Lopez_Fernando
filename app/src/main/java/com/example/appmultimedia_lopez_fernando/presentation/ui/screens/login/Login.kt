@@ -96,11 +96,12 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.width(10.dp))
 
                 Button(onClick = {
-                    if(usernamePasswordViewModel.isValidLogin()) {
-                        navController.navigate(Screen.Main.route)
-                    } else {
-                        usernamePasswordViewModel.clear()
-                    }
+//                    if(usernamePasswordViewModel.isValidLogin()) {
+//                        navController.navigate(Screen.Main.route)
+//                    } else {
+//                        usernamePasswordViewModel.clear()
+//                    }
+                    navController.navigate(Screen.Main.route)
                 }) {
                 Text(text = "Login")
                 }

@@ -1,10 +1,15 @@
 package com.example.appmultimedia_lopez_fernando.data.source.remote
 
 import com.example.appmultimedia_lopez_fernando.domain.model.Game
+import com.example.appmultimedia_lopez_fernando.domain.repository.GameRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-class GameFirestoreRepository(val firestore: FirebaseFirestore) {
+class GameFirestoreRepository(val firestore: FirebaseFirestore): GameRepository {
     private val collection = firestore.collection("games")
 
     suspend fun getGameById(gameId: String?): Game? {
@@ -18,12 +23,38 @@ class GameFirestoreRepository(val firestore: FirebaseFirestore) {
             }
         }
     }
+    override fun list(): Flow<List<Game>> {
+        // Esta implementación crea un Flow que actualiza la lista de usuarios
+        // cada vez que hay un cambio en la base de datos
+        return callbackFlow {
 
-    suspend fun save(game: Game) {
+            val listener = collection
+                // Aquí viene la query,
+                // Se ordena por nombre de manera desceniente
+                .orderBy("name", Query.Direction.DESCENDING)
+                // Creamos un listener a la query para que se actualice siempre que haya cambios
+                .addSnapshotListener { snapshots, error ->
+                    if (error != null) {
+                        close(error)
+                        return@addSnapshotListener
+                    }
+
+                    val items = snapshots?.documents?.mapNotNull { doc ->
+                        doc.toObject(Game::class.java)
+                    } ?: emptyList()
+
+                    trySend(items)
+                }
+
+            awaitClose() { listener.remove() }
+        }
+    }
+
+    override suspend fun save(game: Game) {
         collection.add(game).await()
     }
 
-    suspend fun update(game: Game) {
+    override suspend fun update(game: Game) {
         collection.document(game.Id).update(
             "name", game.name,
             "location", game.location,
@@ -35,7 +66,7 @@ class GameFirestoreRepository(val firestore: FirebaseFirestore) {
         ).await()
     }
 
-    suspend fun delete(id: String): Unit {
+    override suspend fun delete(id: String): Unit {
         collection
             .document(id)
             .delete()
