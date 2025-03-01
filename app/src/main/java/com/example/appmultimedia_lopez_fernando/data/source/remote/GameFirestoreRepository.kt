@@ -55,7 +55,7 @@ class GameFirestoreRepository(val firestore: FirebaseFirestore): GameRepository 
     }
 
     override suspend fun update(game: Game) {
-        collection.document(game.Id).update(
+        collection.document(game.id).update(
             "name", game.name,
             "location", game.location,
             "type", game.type,
