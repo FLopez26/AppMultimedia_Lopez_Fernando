@@ -3,7 +3,7 @@ package com.example.appmultimedia_lopez_fernando.domain.model
 import com.google.firebase.firestore.DocumentId
 
 data class Game (
-    @DocumentId val Id: String = "",
+    @DocumentId val id: String = "",
     val name: String = "",
     val location: String = "",
     val type: String = "",
