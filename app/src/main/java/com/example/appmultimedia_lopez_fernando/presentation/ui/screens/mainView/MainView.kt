@@ -60,7 +60,7 @@ fun mainViewScreen(
                 ) {
                     items(games) { game ->
                         key(game) {
-                            GameCard(game, gamesViewModel)
+                            GameCard(game,navController ,gamesViewModel)
                             Spacer(modifier = Modifier.height(10.dp))
                         }
                     }

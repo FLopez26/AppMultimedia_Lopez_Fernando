@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 class GameFirestoreRepository(val firestore: FirebaseFirestore): GameRepository {
     private val collection = firestore.collection("games")
 
-    suspend fun getGameById(gameId: String?): Game? {
+    override suspend fun getGameById(gameId: String?): Game? {
         return gameId?.let { gameId ->
             try {
                 val documentSnapshot = collection.document(gameId).get().await()

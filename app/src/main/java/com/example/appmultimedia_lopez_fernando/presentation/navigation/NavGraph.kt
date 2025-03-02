@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.games.CreateGameScreen
+import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.games.ModifyGameScreen
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.login.LoginScreen
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.mainView.mainViewScreen
 
@@ -28,6 +29,11 @@ fun NavGraph(startDestination: String = Screen.Login.route) {
 
         composable(Screen.CreateGame.route) {
             CreateGameScreen(navController)
+        }
+
+        composable(Screen.ModifyGame.route) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
+            ModifyGameScreen(navController, id!!)
         }
     }
 }

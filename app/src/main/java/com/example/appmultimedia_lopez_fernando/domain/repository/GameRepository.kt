@@ -8,4 +8,5 @@ interface GameRepository {
     suspend fun save(game: Game)
     suspend fun delete(id: String)
     suspend fun update(game: Game)
+    suspend fun getGameById(gameId: String?): Game?
 }

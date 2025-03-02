@@ -26,7 +26,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.appmultimedia_lopez_fernando.domain.model.Game
+import com.example.appmultimedia_lopez_fernando.presentation.navigation.Screen
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.GamesScreenViewModel
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.RemoveGameViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -35,6 +37,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun GameCard(
     game: Game,
+    navController: NavController,
     gamesViewModel: GamesScreenViewModel,
     removeGameViewModel: RemoveGameViewModel = koinViewModel()
 ) {
@@ -110,7 +113,7 @@ fun GameCard(
                             contentDescription = "Icono de eliminar"
                         )
                     }
-                    IconButton(onClick = {  }) {
+                    IconButton(onClick = { navController.navigate(Screen.ModifyGame.createRoute(game.id)) }) {
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Icono de editar"
