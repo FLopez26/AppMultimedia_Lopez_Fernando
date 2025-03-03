@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,11 +39,12 @@ import androidx.navigation.NavController
 import com.example.appmultimedia_lopez_fernando.presentation.navigation.Screen
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.login.UsernamePasswordViewModel
 import com.example.appmultimedia_lopez_fernando.R
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    usernamePasswordViewModel: UsernamePasswordViewModel = viewModel()
+    usernamePasswordViewModel: UsernamePasswordViewModel = koinViewModel()
 ) {
     val username by usernamePasswordViewModel.username.collectAsState()
     val password by usernamePasswordViewModel.password.collectAsState()
@@ -52,6 +54,26 @@ fun LoginScreen(
         .fillMaxSize()
         .statusBarsPadding())
     {
+        var showDialog by remember { mutableStateOf(false) }
+
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = { Text(text = "Error al inciar sesión") },
+                text = { Text("Las credenciales no son válidas.") },
+                confirmButton = {
+                    Button(onClick = { showDialog = false }) {
+                        Text("Aceptar")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { showDialog = false }) {
+                        Text("Cancelar")
+                    }
+                }
+            )
+        }
+
         Column (modifier = Modifier
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally)
@@ -96,18 +118,18 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.width(10.dp))
 
                 Button(onClick = {
-//                    if(usernamePasswordViewModel.isValidLogin()) {
-//                        navController.navigate(Screen.Main.route)
-//                    } else {
-//                        usernamePasswordViewModel.clear()
-//                    }
-                    navController.navigate(Screen.Main.route)
+                    usernamePasswordViewModel.login(
+                        {
+                            navController.navigate(Screen.Main.route)
+                        },
+                        {
+                            showDialog = true
+                        }
+                    )
                 }) {
                 Text(text = "Login")
                 }
             }
-
-
         }
     }
 }

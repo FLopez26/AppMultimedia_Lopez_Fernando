@@ -53,16 +53,6 @@ fun ActionsMenu(navController: NavController) {
 
                 DropdownMenuItem(
                     text = {
-                        Text("Añadir autor")
-                    },
-                    onClick = {
-                        expanded = false
-                        navController.navigate(Screen.Login.route)
-                    }
-                )
-
-                DropdownMenuItem(
-                    text = {
                         Text("A que jugar")
                     },
                     onClick = {
