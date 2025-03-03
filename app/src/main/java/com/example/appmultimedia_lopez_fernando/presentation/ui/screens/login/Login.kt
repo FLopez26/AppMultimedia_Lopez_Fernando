@@ -65,11 +65,6 @@ fun LoginScreen(
                     Button(onClick = { showDialog = false }) {
                         Text("Aceptar")
                     }
-                },
-                dismissButton = {
-                    Button(onClick = { showDialog = false }) {
-                        Text("Cancelar")
-                    }
                 }
             )
         }

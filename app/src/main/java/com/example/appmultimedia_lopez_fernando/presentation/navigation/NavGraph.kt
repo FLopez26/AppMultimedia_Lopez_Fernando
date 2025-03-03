@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.games.CreateGameScreen
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.games.ModifyGameScreen
+import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.games.RandomGameScreen
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.login.LoginScreen
 import com.example.appmultimedia_lopez_fernando.presentation.ui.screens.mainView.mainViewScreen
 
@@ -34,6 +35,10 @@ fun NavGraph(startDestination: String = Screen.Login.route) {
         composable(Screen.ModifyGame.route) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")
             ModifyGameScreen(navController, id!!)
+        }
+
+        composable(Screen.RandomGame.route) {
+            RandomGameScreen(navController)
         }
     }
 }

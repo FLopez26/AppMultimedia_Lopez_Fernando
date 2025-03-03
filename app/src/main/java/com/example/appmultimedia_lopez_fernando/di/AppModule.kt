@@ -8,11 +8,13 @@ import com.example.appmultimedia_lopez_fernando.domain.usecase.games.AddGameUseC
 import com.example.appmultimedia_lopez_fernando.domain.usecase.games.GamesUseCase
 import com.example.appmultimedia_lopez_fernando.domain.usecase.games.GetGameUseCase
 import com.example.appmultimedia_lopez_fernando.domain.usecase.games.ModifyGameUseCase
+import com.example.appmultimedia_lopez_fernando.domain.usecase.games.RandomGameUseCase
 import com.example.appmultimedia_lopez_fernando.domain.usecase.games.RemoveGameUseCase
 import com.example.appmultimedia_lopez_fernando.domain.usecase.users.LoginUseCase
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.AddGameViewModel
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.GamesScreenViewModel
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.ModifyGameViewModel
+import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.RandomGameViewModel
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.RemoveGameViewModel
 import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.login.UsernamePasswordViewModel
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,10 +33,12 @@ val appModule = module {
     factory{ModifyGameUseCase(get())}
     factory{GetGameUseCase(get())}
     factory{LoginUseCase(get())}
+    factory{RandomGameUseCase(get())}
 
     viewModel { AddGameViewModel(get()) }
     viewModel { GamesScreenViewModel(get()) }
     viewModel { RemoveGameViewModel(get()) }
     viewModel { ModifyGameViewModel(get(), get()) }
     viewModel { UsernamePasswordViewModel(get()) }
+    viewModel { RandomGameViewModel(get()) }
 }

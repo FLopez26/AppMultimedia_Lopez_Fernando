@@ -10,4 +10,5 @@ sealed class Screen(val route: String) {
     data object ModifyGame : Screen("modifyGame/{id}") {
         fun createRoute(id: String) = "modifyGame/$id"
     }
+    data object RandomGame : Screen("randomGame")
 }

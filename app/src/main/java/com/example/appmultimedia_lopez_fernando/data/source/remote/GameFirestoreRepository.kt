@@ -23,6 +23,60 @@ class GameFirestoreRepository(val firestore: FirebaseFirestore): GameRepository 
             }
         }
     }
+
+    override suspend fun searchGame(
+        type: String?,
+        minPlayers: Int?,
+        maxPlayers: Int?,
+        duration: Int?,
+        creator: String?
+    ): Game? {
+        try {
+            var query: Query = collection
+            if (!type.isNullOrBlank()) {
+                query = query.whereEqualTo("type", type)
+            }
+            if (!creator.isNullOrBlank()) {
+                query = query.whereEqualTo("creator", creator)
+            }
+            if (minPlayers != null && minPlayers > 0) {
+                query = query.whereGreaterThanOrEqualTo("minPlayers", minPlayers)
+            }
+            if (maxPlayers != null && maxPlayers > 0) {
+                query = query.whereLessThanOrEqualTo("maxPlayers", maxPlayers)
+            }
+            if (duration != null && duration > 0) {
+                query = query.whereGreaterThanOrEqualTo("duration", duration - 15)
+                query = query.whereLessThanOrEqualTo("duration", duration + 15)
+            }
+
+            val querySnapshot = query.get().await()
+
+            if (querySnapshot.isEmpty) {
+                return null
+            } else {
+                val games = mutableListOf<Game>()
+                for (document in querySnapshot.documents) {
+                    val game = document.toObject(Game::class.java)
+                    game?.let { games.add(it) }
+                }
+
+                if (games.isNotEmpty()) {
+                    if (games.size == 1) {
+                        return games[0]
+                    } else {
+                        val randomIndex = (0 until games.size).random()
+                        return games[randomIndex]
+                    }
+                } else {
+                    return null
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
     override fun list(): Flow<List<Game>> {
         return callbackFlow {
 

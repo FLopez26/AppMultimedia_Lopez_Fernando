@@ -7,13 +7,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -23,17 +28,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.appmultimedia_lopez_fernando.presentation.navigation.Screen
-import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.ModifyGameViewModel
+import com.example.appmultimedia_lopez_fernando.presentation.viewmodel.games.RandomGameViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RandomGameScreen(
     navController: NavController,
-    id: String,
-    modifyGameViewModel: ModifyGameViewModel = koinViewModel()
+    randomGameViewModel: RandomGameViewModel = koinViewModel()
 ) {
-    modifyGameViewModel.setId(id)
-    val game by modifyGameViewModel.game.collectAsState()
+    val game by randomGameViewModel.game.collectAsState()
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogMessage by remember { mutableStateOf("") }
+    var dialogTitle by remember { mutableStateOf("") }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = dialogTitle) },
+            text = { Text(dialogMessage) },
+            confirmButton = {
+                Button(onClick = { showDialog = false; navController.navigate(Screen.Main.route) }) {
+                    Text("Aceptar")
+                }
+            }
+        )
+    }
+
     Scaffold { innerPadding ->
         Column(
             Modifier.padding(innerPadding)
@@ -42,7 +62,7 @@ fun RandomGameScreen(
                 modifier = Modifier
                     .padding(30.dp)
                     .align(Alignment.CenterHorizontally),
-                text = "Modificar Juego de Mesa",
+                text = "¿A qué jugar?",
                 style = TextStyle(
                     fontSize = 30.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -52,29 +72,9 @@ fun RandomGameScreen(
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 maxLines = 1,
-                value = game.name,
-                onValueChange = {
-                    modifyGameViewModel.setName(it)
-                },
-                label = { Text("Nombre") }
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                maxLines = 1,
-                value = game.location,
-                onValueChange = {
-                    modifyGameViewModel.setLocation(it)
-                },
-                label = { Text("Ubicación") }
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                maxLines = 1,
                 value = game.type,
                 onValueChange = {
-                    modifyGameViewModel.setType(it)
+                    randomGameViewModel.setType(it)
                 },
                 label = { Text("Tipo") }
             )
@@ -97,7 +97,7 @@ fun RandomGameScreen(
                     value = game.minPlayers.toString(),
                     onValueChange = { newId ->
                         newId.toIntOrNull()?.let {
-                            modifyGameViewModel.setMinPlayers(it)
+                            randomGameViewModel.setMinPlayers(it)
                         }
                     },
                     label = { Text("Mínimos") }
@@ -112,7 +112,7 @@ fun RandomGameScreen(
                     value = game.maxPlayers.toString(),
                     onValueChange = { newId ->
                         newId.toIntOrNull()?.let {
-                            modifyGameViewModel.setMaxPlayers(it)
+                            randomGameViewModel.setMaxPlayers(it)
                         }
                     },
                     label = { Text("Máximos") }
@@ -128,7 +128,7 @@ fun RandomGameScreen(
                 value = game.duration.toString(),
                 onValueChange = { newId ->
                     newId.toIntOrNull()?.let {
-                        modifyGameViewModel.setDuration(it)
+                        randomGameViewModel.setDuration(it)
                     }
                 },
                 label = { Text("Duración Media (minutos)") }
@@ -139,23 +139,41 @@ fun RandomGameScreen(
                 maxLines = 1,
                 value = game.creator,
                 onValueChange = {
-                    modifyGameViewModel.setCreator(it)
+                    randomGameViewModel.setCreator(it)
                 },
                 label = { Text("Nombre del Creador") }
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Button(
-                onClick = {
-                    modifyGameViewModel.update()
-                    navController.navigate(Screen.Main.route) },
+            Button( onClick = {
+                randomGameViewModel.find(
+                    type = game.type,
+                    minPlayers = game.minPlayers,
+                    maxPlayers = game.maxPlayers,
+                    duration = game.duration,
+                    creator = game.creator
+                )
+            },
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(16.dp)
             ) {
-                Text(text = "Modificar")
+                Text(text = "Buscar")
             }
+        }
+    }
+
+    LaunchedEffect(game) {
+        if (game.name.isNotBlank() || game.location.isNotBlank()) {
+            if (game.name.isNotBlank()) {
+                dialogTitle = "Juego seleccionado"
+                dialogMessage = "Nombre: ${game.name}\nUbicación: ${game.location}"
+            } else {
+                dialogTitle = "No se encontraron juegos"
+                dialogMessage = "No existe ningún juego con esas carácterísticas"
+            }
+            showDialog = true
         }
     }
 }

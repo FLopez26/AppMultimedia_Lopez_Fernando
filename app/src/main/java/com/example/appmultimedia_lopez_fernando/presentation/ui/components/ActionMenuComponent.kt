@@ -57,7 +57,7 @@ fun ActionsMenu(navController: NavController) {
                     },
                     onClick = {
                         expanded = false
-                        navController.navigate(Screen.Login.route)
+                        navController.navigate(Screen.RandomGame.route)
                     }
                 )
 
